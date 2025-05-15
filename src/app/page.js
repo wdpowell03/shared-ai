@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { supabase } from '../utils/supabaseClient';
 
-import styles from './Home.module.css';
+import styles from './auth.module.css';
 
 export default function AuthPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -37,7 +39,10 @@ export default function AuthPage() {
     }
     setLoading(false);
     if (error) setMessage(error.message);
-    else if (!isSignUp) setMessage('Logged in!');
+    else if (!isSignUp) {
+      setMessage('Logged in!');
+      router.replace('/home');
+    }
   };
 
   const handleLogout = async () => {
@@ -45,16 +50,15 @@ export default function AuthPage() {
     setUser(null);
   };
 
+  useEffect(() => {
+    if (user) {
+      router.replace('/home');
+    }
+  }, [user, router]);
+
   if (user) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.card}>
-          <div className={styles.title}>Welcome, {user.email}</div>
-          <div className={styles.subtitle}>You are signed in. Ready to collaborate?</div>
-          <button className={styles.button} onClick={handleLogout}>Sign Out</button>
-        </div>
-      </div>
-    );
+    // While redirecting, render nothing
+    return null;
   }
 
   return (
@@ -116,7 +120,6 @@ export default function AuthPage() {
             </button>
           </div>
         </form>
-        {message && <div style={{color:'#4dd', marginTop:'1rem', fontSize:'0.97rem'}}>{message}</div>}
       </div>
     </div>
   );
