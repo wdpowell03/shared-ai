@@ -46,12 +46,7 @@ export default function HomePage() {
         Sign Out
       </button>
       <div className={styles.card}>
-        <div className={styles.title}>AI Team Workspace</div>
-        <div className={styles.subtitle}>
-          Welcome, <b>{user.email}</b>!<br />
-          This is your real-time, collaborative AI chat workspace.<br />
-          Start a new chat or select a project to continue.
-        </div>
+        <div className={styles.title}>SharedAI</div>
         <div className={styles.projectList}>
           {/* Placeholder for chat/project list */}
           <div className={styles.projectPlaceholder}>
